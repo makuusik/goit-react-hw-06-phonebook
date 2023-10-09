@@ -1,21 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
+import {
+  FLUSH,
+  PURGE,
+  REHYDRATE,
+  persistReducer,
+  persistStore,
+} from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import contactsReducer from './contactsSlice';
-
-function serializeRegister(value) {
-  return value.toString();
-}
-
-function deserializeRegister(value) {
-  return value;
-}
+// import { getDefaultNormalizer } from '@testing-library/react';
 
 const persistConfig = {
-  key: 'root',
+  key: 'auth',
   storage,
-  serialize: { register: serializeRegister },
-  deserialize: { register: deserializeRegister },
 };
 
 const persistedReducer = persistReducer(persistConfig, contactsReducer);
@@ -24,6 +21,12 @@ export const store = configureStore({
   reducer: {
     contacts: persistedReducer,
   },
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoreActions: [FLUSH, REHYDRATE, PURGE],
+      },
+    }),
 });
 
 export const persistor = persistStore(store);

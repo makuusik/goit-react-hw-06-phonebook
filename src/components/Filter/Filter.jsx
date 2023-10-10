@@ -1,15 +1,26 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFilter } from '../redux/contactsSlice';
 
-const Filter = ({ value, onChange }) => (
-  <label>
-    Filter by name:
-    <input
-      type="text"
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      placeholder="Filter contacts by name"
-    />
-  </label>
-);
+const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.contacts.filter);
+
+  const handleFilterChange = event => {
+    dispatch(setFilter(event.target.value.toLowerCase()));
+  };
+
+  return (
+    <label>
+      Filter by name:
+      <input
+        type="text"
+        value={filter}
+        onChange={handleFilterChange}
+        placeholder="Filter contacts by name"
+      />
+    </label>
+  );
+};
 
 export default Filter;

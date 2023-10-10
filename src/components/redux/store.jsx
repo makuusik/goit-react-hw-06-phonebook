@@ -7,7 +7,7 @@ import {
   persistStore,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import contactsReducer from './contactsSlice';
+import contactsReducer from './ContactsSlice';
 // import { getDefaultNormalizer } from '@testing-library/react';
 
 const persistConfig = {
